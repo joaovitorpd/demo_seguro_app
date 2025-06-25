@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "272845289191",
+    "project_id": "fir-seguro-app",
+    "storage_bucket": "fir-seguro-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:272845289191:android:81d867aaacfc0146535442",
+        "android_client_info": {
+          "package_name": "com.example.demo_seguro_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvvr0NUU4CXUIsJu0GoYW0qKncy5LBVSw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
