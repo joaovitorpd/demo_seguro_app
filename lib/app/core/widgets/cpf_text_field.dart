@@ -1,3 +1,4 @@
+import 'package:demo_seguro_app/app/core/widgets/text_field_roud_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -5,12 +6,16 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 class CpfTextField extends StatelessWidget {
   final TextEditingController controller;
   final String label;
-  final bool autofocus;
+  final Color? enabledBorderColor;
+  final Color? focusedBorderColor;
+  final bool? autofocus;
 
   const CpfTextField({
     required this.controller,
+    this.enabledBorderColor,
+    this.focusedBorderColor,
     this.label = 'CPF',
-    this.autofocus = false,
+    this.autofocus,
     super.key,
   });
 
@@ -22,12 +27,13 @@ class CpfTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFieldRoudBorder(
       controller: controller,
       autofocus: autofocus,
-      keyboardType: TextInputType.number,
-      inputFormatters: [FilteringTextInputFormatter.digitsOnly, _formatter],
-      decoration: InputDecoration(labelText: label),
+      labelText: label,
+      keyboardType: TextInputType.numberWithOptions(decimal: true),
+      inputFormatter1: FilteringTextInputFormatter.digitsOnly,
+      inputFormatter2: _formatter,
     );
   }
 

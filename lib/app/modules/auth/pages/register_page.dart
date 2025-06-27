@@ -1,3 +1,4 @@
+import 'package:demo_seguro_app/app/core/widgets/text_field_roud_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -69,36 +70,98 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     }
   }
 
+  void _hideKeyboard(BuildContext context) {
+    FocusScope.of(context).unfocus();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Criar Conta')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: SingleChildScrollView(
-          child: Column(
+      body: SingleChildScrollView(
+        child: GestureDetector(
+          onTap: () => _hideKeyboard(context),
+          behavior: HitTestBehavior.opaque,
+          child: Stack(
+            alignment: Alignment.center,
             children: [
-              CpfTextField(controller: cpfController, autofocus: true),
-              const SizedBox(height: 16),
-              TextField(
-                controller: passwordController,
-                obscureText: true,
-                decoration: const InputDecoration(labelText: 'Senha'),
+              Column(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height / 2,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Colors.green, Colors.yellow],
+                        begin: const FractionalOffset(0.0, 0.5),
+                        end: const FractionalOffset(1.5, 1.0),
+                        stops: [0.0, 1.0],
+                        tileMode: TileMode.clamp,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height / 2,
+                    width: MediaQuery.of(context).size.width,
+                    color: Color.fromARGB(255, 30, 30, 38),
+                  ),
+                ],
               ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: confirmPasswordController,
-                obscureText: true,
-                decoration: const InputDecoration(labelText: 'Confirmar Senha'),
-              ),
-              const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: register,
-                child: const Text('Cadastrar'),
-              ),
-              TextButton(
-                onPressed: () => Modular.to.pop(),
-                child: const Text('Voltar para o login'),
+              Center(
+                child: Container(
+                  alignment: Alignment.center,
+                  width: 350,
+                  height: 600,
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 40, 40, 40),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  padding: EdgeInsets.all(10.0),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                          child: Column(
+                            children: [
+                              SizedBox(height: 16.0),
+                              CpfTextField(
+                                controller: cpfController,
+                                autofocus: true,
+                              ),
+                              const SizedBox(height: 16),
+                              TextFieldRoudBorder(
+                                controller: passwordController,
+                                obscureText: true,
+                                labelText: 'Senha',
+                              ),
+                              const SizedBox(height: 16),
+                              TextFieldRoudBorder(
+                                controller: confirmPasswordController,
+                                obscureText: true,
+                                labelText: 'Confirmar Senha',
+                              ),
+                              const SizedBox(height: 24),
+                              TextButton(
+                                onPressed: register,
+                                child: const Text(
+                                  'Cadastrar',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () => Modular.to.pop(),
+                                child: const Text(
+                                  'Voltar para o login',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

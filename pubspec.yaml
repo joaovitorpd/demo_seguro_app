@@ -18,6 +18,7 @@ dependencies:
   flutter_riverpod: ^2.6.1
   firebase_auth: ^5.6.0
   mask_text_input_formatter: ^2.9.0
+  flutter_secure_storage: ^9.2.4
 
 dev_dependencies:
   flutter_test:
@@ -28,3 +29,9 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
+
+  assets:
+    - assets/generic_logo.png
+    - assets/generic_logo2.png
+    - assets/social_media_logos.png
+
