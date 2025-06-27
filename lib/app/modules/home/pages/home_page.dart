@@ -1,6 +1,7 @@
 import 'package:demo_seguro_app/app/modules/auth/providers/auth_provider.dart';
 import 'package:demo_seguro_app/app/modules/home/pages/home_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomePage extends ConsumerWidget {
@@ -78,6 +79,16 @@ class HomePage extends ConsumerWidget {
                                 icon: Icons.directions_car,
                                 label: 'Automóvel',
                                 componentsCollor: componentsCollor,
+                                onTap: () {
+                                  Modular.to.pushNamed(
+                                    '/home/webview',
+                                    arguments: {
+                                      'url':
+                                          'https://jsonplaceholder.typicode.com/',
+                                      'title': 'Cotar Automóvel',
+                                    },
+                                  );
+                                },
                               ),
                               _serviceCard(
                                 icon: Icons.home,
@@ -175,25 +186,29 @@ class HomePage extends ConsumerWidget {
     required IconData icon,
     required String label,
     required Color? componentsCollor,
+    Function()? onTap,
   }) {
-    return Container(
-      width: 100,
-      margin: const EdgeInsets.only(right: 12),
-      decoration: BoxDecoration(
-        color: componentsCollor,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: 36, color: Colors.blue),
-          const SizedBox(height: 8),
-          Text(
-            label,
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white),
-          ),
-        ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 100,
+        margin: const EdgeInsets.only(right: 12),
+        decoration: BoxDecoration(
+          color: componentsCollor,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 36, color: Colors.blue),
+            const SizedBox(height: 8),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white),
+            ),
+          ],
+        ),
       ),
     );
   }
