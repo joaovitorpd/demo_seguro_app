@@ -1,6 +1,7 @@
 import 'package:demo_seguro_app/app/core/widgets/cpf_text_field.dart';
 import 'package:demo_seguro_app/app/core/widgets/text_field_roud_border.dart';
 import 'package:demo_seguro_app/app/modules/auth/providers/auth_provider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -91,12 +92,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(50.0),
+            padding: const EdgeInsets.all(40.0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(height: 30),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: kIsWeb
+                      ? MainAxisAlignment.center
+                      : MainAxisAlignment.start,
                   children: [
                     Image.asset(
                       "assets/generic_logo.png",
@@ -127,6 +131,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 ),
                 SizedBox(height: 20),
                 Row(
+                  mainAxisAlignment: kIsWeb
+                      ? MainAxisAlignment.center
+                      : MainAxisAlignment.start,
                   children: [
                     Text(
                       "Bem vindo!",
@@ -139,6 +146,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ],
                 ),
                 Row(
+                  mainAxisAlignment: kIsWeb
+                      ? MainAxisAlignment.center
+                      : MainAxisAlignment.start,
                   children: [
                     Flexible(
                       child: Text(

@@ -1,25 +1,15 @@
+import 'package:demo_seguro_app/app/modules/auth/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeDrawer extends StatelessWidget {
-  final List<DrawerItem> items = [
-    DrawerItem(icon: Icons.settings, text: "Home / Seguros"),
-    DrawerItem(icon: Icons.settings, text: "Minhas Contratações"),
-    DrawerItem(icon: Icons.settings, text: "Meus Sinistros"),
-    DrawerItem(icon: Icons.settings, text: "Minha Família"),
-    DrawerItem(icon: Icons.settings, text: "Meus Bens"),
-    DrawerItem(icon: Icons.settings, text: "Pagamentos"),
-    DrawerItem(icon: Icons.settings, text: "Coberturas"),
-    DrawerItem(icon: Icons.settings, text: "Validar Boleto"),
-    DrawerItem(icon: Icons.settings, text: "Telefones Importantes"),
-    DrawerItem(icon: Icons.settings, text: "Configurações"),
-  ];
-
-  HomeDrawer({super.key, required this.name});
+class HomeDrawer extends ConsumerWidget {
+  const HomeDrawer({super.key, required this.name});
 
   final String name;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     const backgroundColor = Color.fromARGB(255, 30, 30, 40);
     const actionCollor = Color.fromARGB(255, 40, 111, 99);
     const textCollor = Colors.white;
@@ -50,11 +40,11 @@ class HomeDrawer extends StatelessWidget {
                         height: 50,
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.blue,
+                          color: Colors.white,
                         ),
                         child: const Icon(
                           Icons.person,
-                          color: Colors.white,
+                          color: Colors.blue,
                           size: 30,
                         ),
                       ),
@@ -98,30 +88,91 @@ class HomeDrawer extends StatelessWidget {
             ),
           ),
 
-          Expanded(
-            child: ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  leading: Icon(items[index].icon, color: actionCollor),
-                  title: Text(
-                    items[index].text,
-                    style: TextStyle(color: textCollor),
-                  ),
-                  onTap: () {},
-                );
-              },
-            ),
+          _actionRow(
+            label: "Home / Seguros",
+            textCollor: textCollor,
+            icon: Icons.settings,
+            actionCollor: actionCollor,
+            onPressed: () {},
           ),
-          Expanded(
-            child: TextButton(
-              onPressed: () {},
-              child: Text(
-                "Sair",
-                textAlign: TextAlign.start,
-                style: TextStyle(color: actionCollor),
+          _actionRow(
+            label: "Minhas Contratações",
+            textCollor: textCollor,
+            icon: Icons.settings,
+            actionCollor: actionCollor,
+            onPressed: () {},
+          ),
+          _actionRow(
+            label: "Meus Sinistros",
+            textCollor: textCollor,
+            icon: Icons.settings,
+            actionCollor: actionCollor,
+            onPressed: () {},
+          ),
+          _actionRow(
+            label: "Minha Família",
+            textCollor: textCollor,
+            icon: Icons.settings,
+            actionCollor: actionCollor,
+            onPressed: () {},
+          ),
+          _actionRow(
+            label: "Meus Bens",
+            textCollor: textCollor,
+            icon: Icons.settings,
+            actionCollor: actionCollor,
+            onPressed: () {},
+          ),
+          _actionRow(
+            label: "Pagamentos",
+            textCollor: textCollor,
+            icon: Icons.settings,
+            actionCollor: actionCollor,
+            onPressed: () {},
+          ),
+          _actionRow(
+            label: "Coberturas",
+            textCollor: textCollor,
+            icon: Icons.settings,
+            actionCollor: actionCollor,
+            onPressed: () {},
+          ),
+          _actionRow(
+            label: "Validar Boleto",
+            textCollor: textCollor,
+            icon: Icons.settings,
+            actionCollor: actionCollor,
+            onPressed: () {},
+          ),
+          _actionRow(
+            label: "Telefones Importantes",
+            textCollor: textCollor,
+            icon: Icons.settings,
+            actionCollor: actionCollor,
+            onPressed: () {},
+          ),
+          _actionRow(
+            label: "Configurações",
+            textCollor: textCollor,
+            actionCollor: actionCollor,
+            icon: Icons.settings,
+            onPressed: () {},
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              TextButton(
+                onPressed: () async {
+                  await ref.read(authProvider.notifier).logout();
+                  Modular.to.navigate('/');
+                },
+                child: Text(
+                  "Sair",
+                  textAlign: TextAlign.start,
+                  style: TextStyle(color: actionCollor),
+                ),
               ),
-            ),
+            ],
           ),
         ],
       ),
@@ -129,9 +180,24 @@ class HomeDrawer extends StatelessWidget {
   }
 }
 
-class DrawerItem {
-  final IconData icon;
-  final String text;
-
-  DrawerItem({required this.icon, required this.text});
+Widget _actionRow({
+  required String label,
+  required Color textCollor,
+  required IconData? icon,
+  required Color actionCollor,
+  required Function()? onPressed,
+}) {
+  return Padding(
+    padding: const EdgeInsets.fromLTRB(15.0, 0.0, 0.0, 0.0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Icon(icon, color: actionCollor),
+        TextButton(
+          onPressed: onPressed,
+          child: Text(label, style: TextStyle(color: textCollor)),
+        ),
+      ],
+    ),
+  );
 }
