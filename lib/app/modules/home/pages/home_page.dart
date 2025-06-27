@@ -13,13 +13,54 @@ class HomePage extends ConsumerWidget {
     final cpf = auth.cpfUnmasked;
     const backgroundColor = Color.fromARGB(255, 30, 30, 40);
     const componentsCollor = Color.fromARGB(255, 45, 45, 60);
+    const textColor = Colors.white;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
-        iconTheme: IconThemeData(
-          color: Colors.white, // Cor do ícone do Drawer
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/generic_logo.png',
+              color: textColor,
+              scale: 2.2,
+            ),
+            SizedBox(width: 5),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(width: 10),
+                Text(
+                  "Seguradora",
+                  textAlign: TextAlign.start,
+                  style: TextStyle(color: textColor, fontSize: 15),
+                ),
+                Text(
+                  "Seguros",
+                  textAlign: TextAlign.start,
+                  style: TextStyle(color: textColor, fontSize: 15),
+                ),
+              ],
+            ),
+          ],
         ),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(Icons.menu_outlined, color: textColor),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            );
+          },
+        ),
+        actions: [
+          SizedBox(
+            width: 50,
+            child: Icon(Icons.notifications_outlined, color: textColor),
+          ),
+        ],
         backgroundColor: backgroundColor,
       ),
       drawer: Drawer(
@@ -42,9 +83,33 @@ class HomePage extends ConsumerWidget {
               ),
             ),
             padding: const EdgeInsets.all(16),
-            child: Text(
-              'Olá, CPF: $cpf',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            child: Row(
+              children: [
+                CircleAvatar(minRadius: 25, child: Icon(Icons.person)),
+                SizedBox(width: 10),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Bem vindo',
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: textColor,
+                      ),
+                    ),
+                    Text(
+                      'CPF: $cpf',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: textColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
           Expanded(
