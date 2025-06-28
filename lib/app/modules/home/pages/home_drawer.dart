@@ -88,91 +88,97 @@ class HomeDrawer extends ConsumerWidget {
             ),
           ),
 
-          _actionRow(
-            label: "Home / Seguros",
-            textCollor: textCollor,
-            icon: Icons.settings,
-            actionCollor: actionCollor,
-            onPressed: () {},
-          ),
-          _actionRow(
-            label: "Minhas Contratações",
-            textCollor: textCollor,
-            icon: Icons.settings,
-            actionCollor: actionCollor,
-            onPressed: () {},
-          ),
-          _actionRow(
-            label: "Meus Sinistros",
-            textCollor: textCollor,
-            icon: Icons.settings,
-            actionCollor: actionCollor,
-            onPressed: () {},
-          ),
-          _actionRow(
-            label: "Minha Família",
-            textCollor: textCollor,
-            icon: Icons.settings,
-            actionCollor: actionCollor,
-            onPressed: () {},
-          ),
-          _actionRow(
-            label: "Meus Bens",
-            textCollor: textCollor,
-            icon: Icons.settings,
-            actionCollor: actionCollor,
-            onPressed: () {},
-          ),
-          _actionRow(
-            label: "Pagamentos",
-            textCollor: textCollor,
-            icon: Icons.settings,
-            actionCollor: actionCollor,
-            onPressed: () {},
-          ),
-          _actionRow(
-            label: "Coberturas",
-            textCollor: textCollor,
-            icon: Icons.settings,
-            actionCollor: actionCollor,
-            onPressed: () {},
-          ),
-          _actionRow(
-            label: "Validar Boleto",
-            textCollor: textCollor,
-            icon: Icons.settings,
-            actionCollor: actionCollor,
-            onPressed: () {},
-          ),
-          _actionRow(
-            label: "Telefones Importantes",
-            textCollor: textCollor,
-            icon: Icons.settings,
-            actionCollor: actionCollor,
-            onPressed: () {},
-          ),
-          _actionRow(
-            label: "Configurações",
-            textCollor: textCollor,
-            actionCollor: actionCollor,
-            icon: Icons.settings,
-            onPressed: () {},
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              TextButton(
-                onPressed: () async {
-                  await ref.read(authProvider.notifier).logout();
-                  Modular.to.navigate('/');
-                },
-                child: Text(
-                  "Sair",
-                  textAlign: TextAlign.start,
-                  style: TextStyle(color: actionCollor),
+          Expanded(
+            child: ListView(
+              children: [
+                _actionRow(
+                  label: "Home / Seguros",
+                  textCollor: textCollor,
+                  icon: Icons.settings,
+                  actionCollor: actionCollor,
+                  onPressed: () {},
                 ),
-              ),
-            ],
+                _actionRow(
+                  label: "Minhas Contratações",
+                  textCollor: textCollor,
+                  icon: Icons.settings,
+                  actionCollor: actionCollor,
+                  onPressed: () {},
+                ),
+                _actionRow(
+                  label: "Meus Sinistros",
+                  textCollor: textCollor,
+                  icon: Icons.settings,
+                  actionCollor: actionCollor,
+                  onPressed: () {},
+                ),
+                _actionRow(
+                  label: "Minha Família",
+                  textCollor: textCollor,
+                  icon: Icons.settings,
+                  actionCollor: actionCollor,
+                  onPressed: () {},
+                ),
+                _actionRow(
+                  label: "Meus Bens",
+                  textCollor: textCollor,
+                  icon: Icons.settings,
+                  actionCollor: actionCollor,
+                  onPressed: () {},
+                ),
+                _actionRow(
+                  label: "Pagamentos",
+                  textCollor: textCollor,
+                  icon: Icons.settings,
+                  actionCollor: actionCollor,
+                  onPressed: () {},
+                ),
+                _actionRow(
+                  label: "Coberturas",
+                  textCollor: textCollor,
+                  icon: Icons.settings,
+                  actionCollor: actionCollor,
+                  onPressed: () {},
+                ),
+                _actionRow(
+                  label: "Validar Boleto",
+                  textCollor: textCollor,
+                  icon: Icons.settings,
+                  actionCollor: actionCollor,
+                  onPressed: () {},
+                ),
+                _actionRow(
+                  label: "Telefones Importantes",
+                  textCollor: textCollor,
+                  icon: Icons.settings,
+                  actionCollor: actionCollor,
+                  onPressed: () {},
+                ),
+                _actionRow(
+                  label: "Configurações",
+                  textCollor: textCollor,
+                  actionCollor: actionCollor,
+                  icon: Icons.settings,
+                  onPressed: () {},
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    TextButton(
+                      onPressed: () async {
+                        await ref.read(authProvider.notifier).logout();
+                        Modular.to.navigate('/');
+                      },
+                      child: Text(
+                        "Sair",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(color: actionCollor),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),

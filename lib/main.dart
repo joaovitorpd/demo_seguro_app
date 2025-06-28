@@ -1,23 +1,19 @@
 import 'package:demo_seguro_app/app/modules/auth/providers/auth_provider.dart';
+import 'package:demo_seguro_app/app/utils/platform_other_setup.dart';
 import 'package:demo_seguro_app/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:webview_flutter_web/webview_flutter_web.dart';
 import 'app/app_module.dart';
 import 'app/app_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if (kIsWeb) {
-    // Import 'package:flutter/foundation.dart' for kIsWeb
-    WebViewPlatform.instance = WebWebViewPlatform();
-  }
+
+  initializePlatform();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
