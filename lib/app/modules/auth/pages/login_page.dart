@@ -59,6 +59,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     const containerColor = Color.fromARGB(255, 40, 40, 40);
     return Scaffold(
       body: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
         child: GestureDetector(
           onTap: () => _hideKeyboard(context),
           behavior: HitTestBehavior.opaque,
@@ -96,7 +97,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(height: 30),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 Row(
                   mainAxisAlignment: kIsWeb
                       ? MainAxisAlignment.center
@@ -178,9 +179,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       width: MediaQuery.of(context).size.width,
       color: Color.fromARGB(255, 30, 30, 38),
       child: Padding(
-        padding: EdgeInsetsGeometry.fromLTRB(50, 220, 50, 0),
+        padding: EdgeInsetsGeometry.all(40.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Image.asset(
               "assets/generic_logo.png",
@@ -198,6 +200,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             ),
             SizedBox(height: 10),
             Image.asset("assets/social_media_logos.png", height: 50),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
           ],
         ),
       ),
@@ -214,6 +217,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       children: [
         Container(
           alignment: Alignment.center,
+          height: kIsWeb
+              ? MediaQuery.of(context).size.height * 0.28
+              : MediaQuery.of(context).size.height * 0.32,
           width: 300,
           decoration: BoxDecoration(
             color: containerColor,
@@ -247,84 +253,97 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ),
                   ],
                 ),
-                Container(
-                  padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                Expanded(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(height: 16.0),
-                      CpfTextField(controller: cpfController),
-                      SizedBox(height: 16.0),
-                      TextFieldRoudBorder(
-                        controller: passwordController,
-                        labelText: 'Senha',
-                        obscureText: true,
-                        textInputAction: TextInputAction.done,
-                        onSubmitted: (_) => _login(),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CpfTextField(controller: cpfController),
+                            SizedBox(height: 16.0),
+                            TextFieldRoudBorder(
+                              controller: passwordController,
+                              labelText: 'Senha',
+                              obscureText: true,
+                              textInputAction: TextInputAction.done,
+                              onSubmitted: (_) => _login(),
+                            ),
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Expanded(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
                         children: [
-                          Checkbox.adaptive(
-                            value: rememberState,
-                            onChanged: (v) =>
-                                ref.read(rememberMeProvider.notifier).state =
-                                    v ?? false,
-                            checkColor: Colors.white,
-                            activeColor: Colors.green,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
+                          Expanded(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Checkbox.adaptive(
+                                  value: rememberState,
+                                  onChanged: (v) =>
+                                      ref
+                                              .read(rememberMeProvider.notifier)
+                                              .state =
+                                          v ?? false,
+                                  checkColor: Colors.white,
+                                  activeColor: Colors.green,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  side: WidgetStateBorderSide.resolveWith(
+                                    (_) =>
+                                        const BorderSide(color: Colors.white),
+                                  ),
+                                  visualDensity: VisualDensity.compact,
+                                  materialTapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                ),
+                                const Expanded(
+                                  child: Text(
+                                    'Lembrar sempre',
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 11,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                            side: WidgetStateBorderSide.resolveWith(
-                              (_) => const BorderSide(color: Colors.white),
-                            ),
-                            visualDensity: VisualDensity.compact,
-                            materialTapTargetSize:
-                                MaterialTapTargetSize.shrinkWrap,
                           ),
-                          const Expanded(
-                            child: Text(
-                              'Lembrar sempre',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 11,
+                          Expanded(
+                            child: TextButton(
+                              onPressed: () {},
+                              child: const Text(
+                                'Esqueceu a senha?',
+                                textAlign: TextAlign.end,
+                                style: TextStyle(
+                                  color: Colors.green,
+                                  fontSize: 11,
+                                ),
                               ),
                             ),
                           ),
                         ],
                       ),
-                    ),
-                    Expanded(
-                      child: TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          'Esqueceu a senha?',
-                          textAlign: TextAlign.end,
-                          style: TextStyle(color: Colors.white, fontSize: 11),
-                        ),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
         ),
         Positioned(
-          bottom: -25,
+          bottom: -35,
           child: GestureDetector(
             onTap: _login,
             child: Container(
-              width: 50,
-              height: 50,
+              width: 70,
+              height: 70,
               decoration: BoxDecoration(
                 color: Colors.blue,
                 shape: BoxShape.circle,
@@ -340,7 +359,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               child: const Icon(
                 Icons.arrow_forward,
                 color: Colors.white,
-                size: 28,
+                size: 40,
               ),
             ),
           ),
