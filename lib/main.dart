@@ -24,13 +24,9 @@ Future<void> main() async {
         ? AndroidProvider.debug
         : AndroidProvider.playIntegrity,
     appleProvider: kDebugMode ? AppleProvider.debug : AppleProvider.appAttest,
-    webProvider: kDebugMode
-        ? ReCaptchaV3Provider(
-            'a60e93b6-e30f-4497-8166-5793effde1c9',
-          ) // Chave DEBUG
-        : ReCaptchaV3Provider(
-            '6Le0LnQrAAAAAKimXiDH9lwRd88utqkQYAhpyi2k',
-          ), // Chave PROD
+    webProvider: ReCaptchaV3Provider(
+      '6Le0LnQrAAAAAKimXiDH9lwRd88utqkQYAhpyi2k',
+    ),
   );
 
   final storage = const FlutterSecureStorage(
