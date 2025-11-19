@@ -113,7 +113,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          "SEGURADORA!!!",
+                          "SEGURADORA",
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
