@@ -2,7 +2,7 @@ name: Deploy to Firebase Hosting on merge
 on:
   push:
     branches:
-      - main # Corrigido: removido os parênteses (main)
+      - main
 
 jobs:
   build_and_deploy:
@@ -10,26 +10,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # PASSO NOVO: Instala o Java (necessário para algumas builds Android/Web no Flutter)
       - uses: actions/setup-java@v1
         with:
           java-version: '12.x'
 
-      # PASSO NOVO: Instala o Flutter na máquina do GitHub
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           
-      # PASSO NOVO: Baixa as dependências do seu projeto
       - run: flutter pub get
 
-      # PASSO NOVO: Compila o projeto Web
       - run: flutter build web --release
 
-      # Deploy: Envia a pasta build/web para o Firebase
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_FIR_SEGURO_APP }}
           channelId: live
           projectId: fir-seguro-app
+        # ADICIONADO AQUI: Autoriza o Firebase a lidar com frameworks web
+        env:
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
