@@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'app/app_module.dart';
 import 'app/app_widget.dart';
+import 'app/utils/log_utils.dart'; // Importe a nova utilidade
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,12 +26,8 @@ Future<void> main() async {
         : AndroidProvider.playIntegrity,
     appleProvider: kDebugMode ? AppleProvider.debug : AppleProvider.appAttest,
     webProvider: kDebugMode
-        ? ReCaptchaV3Provider(
-            'a60e93b6-e30f-4497-8166-5793effde1c9',
-          ) // Chave DEBUG
-        : ReCaptchaV3Provider(
-            '6Le0LnQrAAAAAKimXiDH9lwRd88utqkQYAhpyi2k',
-          ), // Chave PROD
+        ? ReCaptchaV3Provider('a60e93b6-e30f-4497-8166-5793effde1c9')
+        : ReCaptchaV3Provider('6Le0LnQrAAAAAKimXiDH9lwRd88utqkQYAhpyi2k'),
   );
 
   final storage = const FlutterSecureStorage(
@@ -41,15 +38,27 @@ Future<void> main() async {
     ),
   );
 
-  final keep = (await storage.read(key: 'keep_logged')) == 'true';
+  bool keep = false;
+  try {
+    keep = (await storage.read(key: 'keep_logged')) == 'true';
+  } catch (e) {
+    // Usando safePrint: No Web, vai para console.log; em Mobile Prod, é removido.
+    safePrint('Error ao ler keep_logged no storage: $e');
+    await storage.delete(key: 'keep_logged');
+    keep = false;
+  }
 
   final user = FirebaseAuth.instance.currentUser;
   if (!keep && user != null) {
-    await FirebaseAuth.instance.signOut();
+    try {
+      await FirebaseAuth.instance.signOut();
+    } catch (_) {}
   }
 
   if (!keep && FirebaseAuth.instance.currentUser != null) {
-    await FirebaseAuth.instance.signOut();
+    try {
+      await FirebaseAuth.instance.signOut();
+    } catch (_) {}
   }
 
   runApp(
