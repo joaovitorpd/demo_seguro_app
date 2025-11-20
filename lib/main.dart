@@ -41,13 +41,7 @@ Future<void> main() async {
     ),
   );
 
-  bool keep = false;
-  try {
-    keep = (await storage.read(key: 'keep_logged')) == 'true';
-  } catch (e) {
-    await storage.delete(key: 'keep_logged');
-    keep = false;
-  }
+  final keep = (await storage.read(key: 'keep_logged')) == 'true';
 
   final user = FirebaseAuth.instance.currentUser;
   if (!keep && user != null) {
