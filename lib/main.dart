@@ -2,7 +2,6 @@ import 'package:demo_seguro_app/app/modules/auth/providers/auth_provider.dart';
 import 'package:demo_seguro_app/app/utils/platform_other_setup.dart';
 import 'package:demo_seguro_app/firebase_options.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,7 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'app/app_module.dart';
 import 'app/app_widget.dart';
-import 'app/utils/log_utils.dart'; // Importe a nova utilidade
+import 'app/utils/log_utils.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +25,7 @@ Future<void> main() async {
         : AndroidProvider.playIntegrity,
     appleProvider: kDebugMode ? AppleProvider.debug : AppleProvider.appAttest,
     webProvider: kDebugMode
-        ? ReCaptchaV3Provider('a60e93b6-e30f-4497-8166-5793effde1c9')
+        ? ReCaptchaV3Provider('0038FE67-CE9D-4C89-8E77-9446E323E617')
         : ReCaptchaV3Provider('6Le0LnQrAAAAAKimXiDH9lwRd88utqkQYAhpyi2k'),
   );
 
@@ -42,23 +41,9 @@ Future<void> main() async {
   try {
     keep = (await storage.read(key: 'keep_logged')) == 'true';
   } catch (e) {
-    // Usando safePrint: No Web, vai para console.log; em Mobile Prod, é removido.
     safePrint('Error ao ler keep_logged no storage: $e');
     await storage.delete(key: 'keep_logged');
     keep = false;
-  }
-
-  final user = FirebaseAuth.instance.currentUser;
-  if (!keep && user != null) {
-    try {
-      await FirebaseAuth.instance.signOut();
-    } catch (_) {}
-  }
-
-  if (!keep && FirebaseAuth.instance.currentUser != null) {
-    try {
-      await FirebaseAuth.instance.signOut();
-    } catch (_) {}
   }
 
   runApp(
