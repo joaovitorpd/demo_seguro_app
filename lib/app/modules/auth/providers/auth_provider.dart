@@ -24,6 +24,15 @@ class AuthNotifier extends StateNotifier<User?> {
   }
 
   Future<void> _initialize() async {
+    // Se estiver na web, o Firebase Auth fará a persistência
+    if (kIsWeb) {
+      // Na web, vamos confiar no Firebase Auth. Não deslogue automaticamente.
+      // O problema pode estar em outro lugar se o Firebase Auth estiver deslogando
+      return;
+    }
+
+    // Apenas para plataformas que usam o FlutterSecureStorage como gatekeeper
+    // (Android, iOS) - onde o 'keep_logged' é o único indicador de persistência.
     try {
       final keep = await _storage.read(key: 'keep_logged');
       if (keep != 'true') {
