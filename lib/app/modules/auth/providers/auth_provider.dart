@@ -24,20 +24,45 @@ class AuthNotifier extends StateNotifier<User?> {
   Future<void> login(String cpf, String password, bool remember) async {
     final rawCpf = cpf.replaceAll(RegExp(r'[^0-9]'), '');
     final email = '$rawCpf@app.com';
-    await _auth.signInWithEmailAndPassword(email: email, password: password);
-    if (remember) {
-      await _storage.write(key: 'keep_logged', value: 'true');
-    } else {
-      await _storage.delete(key: 'keep_logged');
+    try {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      if (remember) {
+        await _storage.write(key: 'keep_logged', value: 'true');
+      } else {
+        await _storage.delete(key: 'keep_logged');
+      }
+    } on FirebaseAuthException catch (e) {
+      final code = e.code;
+      final msg = e.message ?? '';
+      if (code == 'user-not-found' || code == 'invalid-email') {
+        throw Exception('CPF inválido');
+      } else if (code == 'wrong-password' ||
+          code == 'invalid-credential' ||
+          msg.contains('supplied auth credential')) {
+        throw Exception('Senha inválida');
+      } else {
+        throw Exception('Erro de autenticação: ${msg.isNotEmpty ? msg : code}');
+      }
     }
   }
 
   Future<void> register(String cpf, String password) async {
-    final email = '$cpf@app.com';
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+    final rawCpf = cpf.replaceAll(RegExp(r'[^0-9]'), '');
+    final email = '$rawCpf@app.com';
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        throw Exception('Senha muito fraca');
+      } else if (e.code == 'email-already-in-use') {
+        throw Exception('CPF já cadastrado');
+      } else {
+        throw Exception('Erro ao registrar: ${e.message ?? e.code}');
+      }
+    }
   }
 
   Future<void> logout() async {
