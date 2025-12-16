@@ -30,15 +30,19 @@ Future<void> main() async {
         : ReCaptchaV3Provider('6Le0LnQrAAAAAKimXiDH9lwRd88utqkQYAhpyi2k'),
   );
 
-  // Garantir que obtemos um token App Check válido antes de inicializar Auth
   try {
-    await FirebaseAppCheck.instance.getToken(true);
-    if (FirebaseAuth.instance.currentUser != null) {
-      await FirebaseAuth.instance.currentUser!.getIdToken(true);
+    if (kIsWeb) {
+      await Future.delayed(const Duration(milliseconds: 100));
+      await FirebaseAppCheck.instance.getToken(true);
     }
   } catch (e) {
     safePrint('App Check token error: $e');
-    // Em produção, considere colocar App Check em monitor mode se precisar debugar.
+  }
+
+  if (FirebaseAuth.instance.currentUser != null) {
+    try {
+      await FirebaseAuth.instance.currentUser!.getIdToken(true);
+    } catch (_) {}
   }
 
   final storage = const FlutterSecureStorage(
