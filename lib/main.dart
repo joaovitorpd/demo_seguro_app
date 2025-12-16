@@ -32,7 +32,7 @@ Future<void> main() async {
 
   // Garantir que obtemos um token App Check válido antes de inicializar Auth
   try {
-    await FirebaseAppCheck.instance.getToken();
+    await FirebaseAppCheck.instance.getToken(true);
     if (FirebaseAuth.instance.currentUser != null) {
       await FirebaseAuth.instance.currentUser!.getIdToken(true);
     }
