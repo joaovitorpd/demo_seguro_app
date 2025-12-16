@@ -19,6 +19,20 @@ class AuthNotifier extends StateNotifier<User?> {
     _auth.authStateChanges().listen((user) {
       state = user;
     });
+    _initialize();
+  }
+
+  Future<void> _initialize() async {
+    try {
+      final keep = await _storage.read(key: 'keep_logged');
+      if (keep != 'true') {
+        if (_auth.currentUser != null) {
+          await _auth.signOut();
+        }
+      }
+    } catch (_) {
+      // ignore storage errors for now
+    }
   }
 
   Future<void> login(String cpf, String password, bool remember) async {
