@@ -42,9 +42,7 @@ class AuthNotifier extends StateNotifier<User?> {
     try {
       if (kIsWeb) {
         try {
-          await _auth.setPersistence(
-            remember ? Persistence.LOCAL : Persistence.SESSION,
-          );
+          await _auth.setPersistence(Persistence.LOCAL);
         } catch (_) {
           // ignore persistence errors
         }

@@ -2,6 +2,7 @@ import 'package:demo_seguro_app/app/modules/auth/providers/auth_provider.dart';
 import 'package:demo_seguro_app/app/utils/platform_other_setup.dart';
 import 'package:demo_seguro_app/firebase_options.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -32,6 +33,9 @@ Future<void> main() async {
   // Garantir que obtemos um token App Check válido antes de inicializar Auth
   try {
     await FirebaseAppCheck.instance.getToken();
+    if (FirebaseAuth.instance.currentUser != null) {
+      await FirebaseAuth.instance.currentUser!.getIdToken(true);
+    }
   } catch (e) {
     safePrint('App Check token error: $e');
     // Em produção, considere colocar App Check em monitor mode se precisar debugar.
