@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -39,6 +40,15 @@ class AuthNotifier extends StateNotifier<User?> {
     final rawCpf = cpf.replaceAll(RegExp(r'[^0-9]'), '');
     final email = '$rawCpf@app.com';
     try {
+      if (kIsWeb) {
+        try {
+          await _auth.setPersistence(
+            remember ? Persistence.LOCAL : Persistence.SESSION,
+          );
+        } catch (_) {
+          // ignore persistence errors
+        }
+      }
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       if (remember) {
         await _storage.write(key: 'keep_logged', value: 'true');
