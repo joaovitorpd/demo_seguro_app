@@ -29,6 +29,14 @@ Future<void> main() async {
         : ReCaptchaV3Provider('6Le0LnQrAAAAAKimXiDH9lwRd88utqkQYAhpyi2k'),
   );
 
+  // Garantir que obtemos um token App Check válido antes de inicializar Auth
+  try {
+    await FirebaseAppCheck.instance.getToken();
+  } catch (e) {
+    safePrint('App Check token error: $e');
+    // Em produção, considere colocar App Check em monitor mode se precisar debugar.
+  }
+
   final storage = const FlutterSecureStorage(
     aOptions: AndroidOptions(encryptedSharedPreferences: true),
     iOptions: IOSOptions(
